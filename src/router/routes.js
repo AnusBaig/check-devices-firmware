@@ -1,10 +1,31 @@
-
-const routes = [
-  {
+const routes = [{
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Index.vue') }
+    children: [{
+        name: 'Home',
+        path: '',
+        component: () => import('pages/Home.vue')
+      },
+      {
+        name: 'Devices',
+        path: 'devices',
+        component: () => import('pages/Devices.vue')
+      },
+      {
+        name: 'Firmware',
+        path: 'firmware',
+        component: () => import('pages/Firmware.vue')
+      },
+      {
+        name: 'Feedback',
+        path: 'feedback',
+        component: () => import('pages/Feedback.vue')
+      },
+      {
+        name: 'NewProduct',
+        path: '/new_product',
+        component: () => import('pages/NewProduct.vue')
+      }
     ]
   },
 

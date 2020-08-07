@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh lpR fFf">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -11,97 +11,121 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-toolbar-title>Check Device Firmware</q-toolbar-title>
       </q-toolbar>
     </q-header>
 
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
+      :mini="miniState"
+      mini-to-overlay
+      @mouseover="miniState = false"
+      @mouseout="miniState = true"
+      :width="200"
+      :breakpoint="767"
       bordered
-      content-class="bg-grey-1"
+      active
+      content-class="bg-grey-3"
     >
       <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
+        <q-item
+          v-for="option in options"
+          :key="option.title"
+          v-ripple
+          clickable
+          @click="option.link"
         >
-          Essential Links
-        </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+          <q-item-section v-if="option.icon" avatar>
+            <q-icon :name="option.icon" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ option.title }}</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-footer elevated :breakpoint="200">
+      <q-tabs v-model="tab" indicator-color="white" active-color="white" class="text-grey-5">
+        <q-route-tab
+          v-for="option in options"
+          :to="option.to"
+          :key="option.title"
+          :icon="option.icon"
+          :label="option.title"
+        />
+      </q-tabs>
+    </q-footer>
   </q-layout>
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
-
-const linksData = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
-
 export default {
-  name: 'MainLayout',
-  components: { EssentialLink },
-  data () {
+  name: "MainLayout",
+
+  components: {},
+
+  data() {
     return {
       leftDrawerOpen: false,
-      essentialLinks: linksData
-    }
+      miniState: true,
+      options: [
+        {
+          title: "Home",
+          caption: "Dashboard - provides all devices info",
+          icon: "dashboard",
+          to: "/",
+          link: () => this.$router.push({ name: "Home" }),
+        },
+        {
+          title: "Devices",
+          caption: "List of devices",
+          icon: "devices",
+          to: "/devices",
+          link: () => this.$router.push({ name: "Devices" }),
+        },
+        {
+          title: "Firmware",
+          caption: "Check firmware of device",
+          icon: "insights",
+          to: "/firmware",
+          link: () => this.$router.push({ name: "Firmware" }),
+        },
+        {
+          title: "Feedback",
+          caption:
+            "Submit feedback that you experienced for checking of your device firmware",
+          icon: "feedback",
+          to: "/feedback",
+          link: () => this.$router.push({ name: "Feedback" }),
+        },
+        {
+          title: "New Product",
+          caption: "Add new product to your list",
+          icon: "create",
+          to: "/new_product",
+          link: () => this.$router.push({ name: "NewProduct" }),
+        },
+      ],
+    };
+  },
+};
+</script>
+
+<style scoped>
+@media screen and (min-width: 768px) {
+  .q-footer {
+    display: none;
   }
 }
-</script>
+@media screen and (max-width: 767px) {
+  .q-btn {
+    display: none;
+  }
+}
+</style>
