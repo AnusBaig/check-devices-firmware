@@ -1,19 +1,43 @@
 <template>
-  <div>
-    <q-card class="w-75 mx-auto" flat square>
-      <q-card-section>
-        <q-item v-for="(stat, index) in stats" :key="stat.label" class="row ">
-          <q-item-section>{{ stat.label }}</q-item-section>
-          <q-item-section>{{ stat.value }}</q-item-section>
+  <div class="q-pa-md">
+    <div class="content-header q-mb-md">
+      <q-card class="my-card bg-gray">
+        <q-card-section>
+          <div class="text-h6 row items-center">
+            <q-icon left name="developer_mode"></q-icon>
+            <span>Product X</span>
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <div class="q-ml-xs">
+            <span class="text-subtitle1 text-teal">OTA Url</span>
+            <span class="q-ml-xl text-body1 text-blue"><q-icon size="24px" name="link"></q-icon><a class="q-ml-sm">{{OTAUrl}}</a></span>
+          </div>
+        </q-card-section>
+      </q-card>
+    </div>
+    <div class="device-stats q-mb-md">
+      <q-card class="my-card">
+        <q-card-section>
+          <div class="text-h6  row items-center">
+            <q-icon  name="bar_chart"></q-icon>
+            <span class="q-ml-sm">Statistics</span>
+          </div>
+        </q-card-section>
+        <q-card-section>
+          
+          <q-item v-for="(stat) in stats" :key="stat.label" class="row ">
+          <q-item-section class="text-body1">{{ stat.label }}</q-item-section>
+          <q-item-section class="text-body1">{{ stat.value }}</q-item-section>
           <!-- <q-separator v-if="index != stats.length - 1"></q-separator> -->
-        </q-item>
-      </q-card-section>
-      <q-card-section>
-        <q-item v-for="(value, label) in firmwares" :key="label" class="row ">
-          <q-item-section>{{ label }}</q-item-section>
-          <q-item-section>{{ value }}</q-item-section>
-        </q-item>
-      </q-card-section>
+          </q-item>
+          
+ 
+        </q-card-section>
+      </q-card>
+    </div>
+    <div class="firmware-stats q-mb-md">
+      <q-card>
       <q-card-section>
         <q-table
           title="Firmwares In Use"
@@ -28,6 +52,19 @@
         />
       </q-card-section>
     </q-card>
+    </div>
+    <div>
+      <q-card class="my-card">
+        <q-card-section horizontal>
+           <q-card-section>
+             <span class="text-body1">Total Binaries</span>
+           </q-card-section>
+          <q-card-section>
+            <span class="text-body1">42</span>
+          </q-card-section>
+        </q-card-section>
+      </q-card>
+    </div>
   </div>
 </template>
 
@@ -35,6 +72,7 @@
 export default {
   data() {
     return {
+      OTAUrl:"https://test.com/ota/48af3e",
       devicesQty: 50,
       productUrl: "https://test.com/ota/48af3e",
       currentFirmwareVersion: "v0.1.3",
@@ -51,7 +89,8 @@ export default {
           required: true,
           label: "Firmware Version",
           align: "center",
-          field: row => row.name
+          field: row => row.name,
+          style: ''
         },
         {
           name: "devices",
@@ -59,7 +98,8 @@ export default {
           label: "Number of devices Used",
           align: "center",
           field: row => row.devices,
-          sortable: true
+          sortable: true,
+    
         }
       ],
       data: [
@@ -84,10 +124,6 @@ export default {
         {
           label: "Number of devices",
           value: this.devicesQty
-        },
-        {
-          label: "Product URL",
-          value: this.productUrl
         },
         {
           label: "Current firmware version",
