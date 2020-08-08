@@ -1,4 +1,5 @@
 <template>
+<q-page padding>
   <div class="q-pa-md">
     <div class="content-header q-mb-md">
       <q-card class="my-card bg-gray">
@@ -53,7 +54,13 @@
       </q-card-section>
     </q-card>
     </div>
+    <div class="chart-div q-mb-md">
+      <q-card class="my-card">
+            <chart :chartData="chartData" :options="chartOptions"></chart>
+      </q-card>
+    </div>
     <div>
+      
       <q-card class="my-card">
         <q-card-section horizontal>
            <q-card-section>
@@ -65,10 +72,13 @@
         </q-card-section>
       </q-card>
     </div>
+ 
   </div>
+</q-page>
 </template>
 
 <script>
+import chart from '../components/Chart'
 export default {
   data() {
     return {
@@ -115,7 +125,21 @@ export default {
           name: "v0.1.3",
           devices: 20
         }
-      ]
+      ],
+      chartData:{
+        labels:['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
+        datasets:[
+          {
+            backgroundColor:'rgb(183,118,176)',
+            label:'Checked in Devices',
+            data:[10,20,30,23,12,3,4]
+          }
+        ]
+      },
+      chartOptions:{
+        responsive: true,
+        maintainAspectRatio: false
+      }
     };
   },
   computed: {
@@ -135,6 +159,9 @@ export default {
         }
       ];
     }
+  },
+  components:{
+    chart:chart
   }
 };
 </script>

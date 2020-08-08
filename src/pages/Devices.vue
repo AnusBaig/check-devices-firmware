@@ -1,5 +1,7 @@
 <template>
-  <div>Devices</div>
+  <q-page padding>
+
+  </q-page>
 </template>
 
 <script>
