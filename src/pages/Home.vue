@@ -1,10 +1,11 @@
 <template>
   <div>
-    <q-card>
+    <q-card class="w-75 mx-auto" flat square>
       <q-card-section>
-        <q-item v-for="stat in stats" :key="stat.label" class="row ">
+        <q-item v-for="(stat, index) in stats" :key="stat.label" class="row ">
           <q-item-section>{{ stat.label }}</q-item-section>
           <q-item-section>{{ stat.value }}</q-item-section>
+          <!-- <q-separator v-if="index != stats.length - 1"></q-separator> -->
         </q-item>
       </q-card-section>
       <q-card-section>
@@ -18,6 +19,8 @@
           title="Firmwares In Use"
           :data="data"
           :columns="columns"
+          :table-header-class="{ 'font-larger': true }"
+          :table-class="{ 'font-large': true }"
           row-key="name"
           hide-bottom
           flat
@@ -100,4 +103,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.font-larger {
+  font-size: 18px !important;
+}
+.font-large {
+  font-size: 16px !important;
+}
+</style>
