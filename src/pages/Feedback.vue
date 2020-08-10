@@ -2,6 +2,9 @@
   <q-page padding>
     <div class="q-pa-md q-mx-auto" style="max-width: 50vw">
       <q-card>
+        <q-card-section class="text-center q-pt-xs">
+          <h6>Should you have face any issue, feel free to contact us, we will get back to you as soon as we can!</h6>
+        </q-card-section>
         <q-card-section>
           <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
             <q-input v-model="name" label="Name" />
