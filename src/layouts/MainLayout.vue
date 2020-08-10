@@ -90,11 +90,11 @@ export default {
           link: () => this.$router.push({ name: "Devices" }),
         },
         {
-          title: "Firmware",
+          title: "Firmwares",
           caption: "Check firmware of device",
           icon: "insights",
-          to: "/firmware",
-          link: () => this.$router.push({ name: "Firmware" }),
+          to: "/firmwaresOverview",
+          link: () => this.$router.push({ name: "FirmwaresOverview" }),
         },
         {
           title: "Feedback",

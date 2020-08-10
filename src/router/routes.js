@@ -12,8 +12,15 @@ const routes = [{
         component: () => import('pages/Devices.vue')
       },
       {
-        name: 'Firmware',
-        path: 'firmware',
+        name: 'FirmwaresOverview',
+        path: 'firmwaresOverview',
+        
+        component: () => import('pages/FirmwaresOverview.vue')
+      },
+      {
+        name: 'Firmwares',
+        path: 'firmware/:id',
+        props:true,
         component: () => import('pages/Firmware.vue')
       },
       {
