@@ -11,10 +11,9 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title>Check Device Firmware</q-toolbar-title>
-
         <q-select
-          filled
+          rounded
+          outlined
           v-model="selectedProduct"
           placeholder="Select Product"
           use-input
@@ -22,18 +21,27 @@
           transition-show="jump-up"
           transition-hide="jump-up"
           fill-input
-          bg-color="blue-11"
+          @filter="filterFn"
+          @input-value="setModel"
+          bg-color="white"
           input-debounce="0"
           :options="productSelection"
-          class="cursor-pointer"
-          style="width: 15vw;"
+          class="cursor-pointer q-px-lg q-py-sm"
+          style="width: 20vw;"
         >
+          <template v-slot:prepend>
+            <q-icon name="trip_origin" class="cursor_pointer" color="blue-5" />
+          </template>
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">No product</q-item-section>
             </q-item>
           </template>
         </q-select>
+
+        <q-toolbar-title class="text-center"
+          >Check Device Firmware</q-toolbar-title
+        >
       </q-toolbar>
     </q-header>
 
@@ -73,7 +81,12 @@
     </q-page-container>
 
     <q-footer elevated :breakpoint="200">
-      <q-tabs v-model="tab" indicator-color="white" active-color="white" class="text-grey-5">
+      <q-tabs
+        v-model="tab"
+        indicator-color="white"
+        active-color="white"
+        class="text-grey-5"
+      >
         <q-route-tab
           v-for="option in options"
           :to="option.to"
@@ -103,21 +116,21 @@ export default {
           caption: "Dashboard - provides all devices info",
           icon: "dashboard",
           to: "/",
-          link: () => this.$router.push({ name: "Home" }),
+          link: () => this.$router.push({ name: "Home" })
         },
         {
           title: "Devices",
           caption: "List of devices",
           icon: "devices",
           to: "/devices",
-          link: () => this.$router.push({ name: "Devices" }),
+          link: () => this.$router.push({ name: "Devices" })
         },
         {
           title: "Firmwares",
           caption: "Check firmware of device",
           icon: "insights",
           to: "/firmwaresOverview",
-          link: () => this.$router.push({ name: "FirmwaresOverview" }),
+          link: () => this.$router.push({ name: "FirmwaresOverview" })
         },
         {
           title: "Feedback",
@@ -125,21 +138,53 @@ export default {
             "Submit feedback that you experienced for checking of your device firmware",
           icon: "feedback",
           to: "/feedback",
-          link: () => this.$router.push({ name: "Feedback" }),
+          link: () => this.$router.push({ name: "Feedback" })
         },
         {
           title: "New Product",
           caption: "Add new product to your list",
           icon: "create",
           to: "/new_product",
-          link: () => this.$router.push({ name: "NewProduct" }),
-        },
+          link: () => this.$router.push({ name: "NewProduct" })
+        }
       ],
 
       selectedProduct: null,
-      productSelection: ["Product 1", "Product 2", "Product 3", "Product 4"],
+      products: [
+        "Product 1",
+        "Product 2",
+        "Product 3",
+        "Product 4",
+        "Smart Product 1",
+        "Smart Product 2"
+      ],
+      productSelection: this.products
     };
   },
+  methods: {
+    filterFn(val, update) {
+      if (val === "") {
+        update(() => {
+          this.productSelection = this.products;
+
+          // with Quasar v1.7.4+
+          // here you have access to "ref" which
+          // is the Vue reference of the QSelect
+        });
+        return;
+      }
+
+      update(() => {
+        const needle = val.toLowerCase();
+        this.productSelection = this.products.filter(
+          v => v.toLowerCase().indexOf(needle) > -1
+        );
+      });
+    },
+    setModel(val) {
+      this.selectedProduct = val;
+    }
+  }
 };
 </script>
 
