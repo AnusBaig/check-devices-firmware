@@ -3,7 +3,7 @@
     <div class="firmware-stats q-mb-md">
       <q-card>
         <q-card-section>
-          <div class="text-h6  row items-center">
+          <div class="text-h6 row items-center">
             <q-icon name="insights"></q-icon>
             <span class="q-ml-sm">Active Devices</span>
           </div>
@@ -26,7 +26,7 @@
                 v-model="search.checkInTime"
                 label="Last Check-in time"
                 placeholder="Last Check-in time"
-                dense="true"
+                :dense="true"
                 readonly
               >
                 <template v-slot:prepend>
@@ -60,7 +60,7 @@
                 v-model="search.updateTime"
                 label="Last Update time"
                 placeholder="Last Update time"
-                dense="true"
+                :dense="true"
                 readonly
               >
                 <template v-slot:prepend>
@@ -115,10 +115,10 @@ export default {
       search: {
         text: "",
         checkInTime: "",
-        updateTime: ""
+        updateTime: "",
       },
       pagination: {
-        rowsPerPage: 10
+        rowsPerPage: 10,
       },
       columns: [
         {
@@ -126,61 +126,61 @@ export default {
           required: true,
           label: "Device ID",
           align: "center",
-          field: row => row.deviceId,
-          sortable: true
+          field: (row) => row.deviceId,
+          sortable: true,
         },
         {
           name: "firmwareVersion",
           required: true,
           label: "Firmware version",
           align: "center",
-          field: row => row.firmwareVersion,
-          sortable: true
+          field: (row) => row.firmwareVersion,
+          sortable: true,
         },
         {
           name: "checkInTime",
           required: true,
           label: "Last check-in time",
           align: "center",
-          field: row => row.checkInTime,
-          sortable: true
+          field: (row) => row.checkInTime,
+          sortable: true,
         },
         {
           name: "updateTime",
           required: true,
           label: "Last update time",
           align: "center",
-          field: row => row.updateTime,
-          sortable: true
-        }
+          field: (row) => row.updateTime,
+          sortable: true,
+        },
       ],
       data: [
         {
           deviceId: "4B-DC-F8-05-6E-5F",
           firmwareVersion: "M_V3_P10",
           checkInTime: "Aug 09 2020 05:28",
-          updateTime: "Aug 10 2020 15:42"
+          updateTime: "Aug 10 2020 15:42",
         },
         {
           deviceId: "8B-DC-D8-15-6E-5F",
           firmwareVersion: "M_V1_P7",
           checkInTime: "Aug 09 2020 20:28",
-          updateTime: "Aug 12 2019 05:42"
+          updateTime: "Aug 12 2019 05:42",
         },
         {
           deviceId: "7B-DC-D4-50-6E-5F",
           firmwareVersion: "M_V2_P8",
           checkInTime: "Aug 19 2020 05:28",
-          updateTime: "Aug 15 2020 23:42"
-        }
-      ]
+          updateTime: "Aug 15 2020 23:42",
+        },
+      ],
     };
   },
   methods: {
     hidePicker(ref, value) {
       this.$nextTick(() => ref.hide());
-    }
-  }
+    },
+  },
 };
 </script>
 
