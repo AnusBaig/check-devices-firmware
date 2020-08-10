@@ -14,13 +14,13 @@ const routes = [{
       {
         name: 'FirmwaresOverview',
         path: 'firmwaresOverview',
-        
+
         component: () => import('pages/FirmwaresOverview.vue')
       },
       {
         name: 'Firmwares',
         path: 'firmware/:id',
-        props:true,
+        props: true,
         component: () => import('pages/Firmware.vue')
       },
       {
