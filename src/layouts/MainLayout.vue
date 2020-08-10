@@ -12,6 +12,28 @@
         />
 
         <q-toolbar-title>Check Device Firmware</q-toolbar-title>
+
+        <q-select
+          filled
+          v-model="selectedProduct"
+          placeholder="Select Product"
+          use-input
+          hide-selected
+          transition-show="jump-up"
+          transition-hide="jump-up"
+          fill-input
+          bg-color="blue-11"
+          input-debounce="0"
+          :options="productSelection"
+          class="cursor-pointer"
+          style="width: 15vw;"
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">No product</q-item-section>
+            </q-item>
+          </template>
+        </q-select>
       </q-toolbar>
     </q-header>
 
@@ -74,6 +96,7 @@ export default {
     return {
       leftDrawerOpen: false,
       miniState: true,
+      tab: null,
       options: [
         {
           title: "Home",
@@ -112,6 +135,9 @@ export default {
           link: () => this.$router.push({ name: "NewProduct" }),
         },
       ],
+
+      selectedProduct: null,
+      productSelection: ["Product 1", "Product 2", "Product 3", "Product 4"],
     };
   },
 };
