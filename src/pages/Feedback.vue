@@ -5,14 +5,7 @@
         <q-card-section>
           <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
             <q-input v-model="name" label="Name" />
-            <q-input
-              type="email"
-              v-model="email"
-              label="Email"
-              class="q-py-md"
-              lazy-rules
-              :rules="[ val => val.length>0 && val.includes('@') && val.includes('.com') || 'Invalid email']"
-            />
+            <q-input v-model="email" label="Email" class="q-py-md" />
             <q-item-label class="q-pt-lg">Select what problems you are facing</q-item-label>
             <q-option-group v-model="problems" :options="options" color="blue" type="checkbox" />
 
@@ -62,7 +55,7 @@ export default {
         },
       ],
 
-      comments: null,
+      comments: "",
       textareaFillCancelled: false,
     };
   },
@@ -88,13 +81,23 @@ export default {
 
   methods: {
     onSubmit() {
-      this.$q.notify({
-        color: "green-4",
-        textColor: "white",
-        icon: "cloud_done",
-        message: "Submitted",
-      });
-      this.onReset();
+      if (this.problems.length >= 1 || this.comments.length > 10) {
+        this.$q.notify({
+          color: "green-4",
+          textColor: "white",
+          icon: "cloud_done",
+          message: "Submitted",
+        });
+        this.onReset();
+      } else {
+        this.$q.notify({
+          color: "red-5",
+          textColor: "white",
+          icon: "warning",
+          message:
+            "You need to provide any suggestion or select atleast one problem",
+        });
+      }
     },
 
     onReset() {
