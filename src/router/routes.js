@@ -27,11 +27,6 @@ const routes = [{
         name: 'Feedback',
         path: 'feedback',
         component: () => import('pages/Feedback.vue')
-      },
-      {
-        name: 'NewProduct',
-        path: '/new_product',
-        component: () => import('pages/NewProduct.vue')
       }
     ]
   },

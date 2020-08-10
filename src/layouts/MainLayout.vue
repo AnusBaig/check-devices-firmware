@@ -27,7 +27,7 @@
           input-debounce="0"
           :options="productSelection"
           class="cursor-pointer q-px-lg q-py-sm"
-          style="width: 20vw;"
+          style="width: 20vw;min-width:240px"
         >
           <template v-slot:prepend>
             <q-icon name="trip_origin" class="cursor_pointer" color="blue-5" />
@@ -87,15 +87,38 @@
         active-color="white"
         class="text-grey-5"
       >
-        <q-route-tab
+        <q-tab
           v-for="option in options"
-          :to="option.to"
+          @click="option.link"
           :key="option.title"
           :icon="option.icon"
           :label="option.title"
         />
       </q-tabs>
     </q-footer>
+
+    <q-dialog v-model="prompt">
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">New Product</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input
+            dense
+            v-model="name"
+            label="Name"
+            autofocus
+            @keyup.enter="prompt = false"
+          />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cancel" @click="$router.push({ name: 'Home' })" />
+          <q-btn flat label="Add product" @click="addProduct" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-layout>
 </template>
 
@@ -144,8 +167,7 @@ export default {
           title: "New Product",
           caption: "Add new product to your list",
           icon: "create",
-          to: "/new_product",
-          link: () => this.$router.push({ name: "NewProduct" })
+          link: () => (this.prompt = true)
         }
       ],
 
@@ -158,10 +180,32 @@ export default {
         "Smart Product 1",
         "Smart Product 2"
       ],
-      productSelection: this.products
+      productSelection: this.products,
+
+      prompt: false,
+      name: null
     };
   },
   methods: {
+    addProduct() {
+      if (this.name && this.name.length >= 3) {
+        this.$router.push({ name: "FirmwaresOverview" });
+        this.$q.notify({
+          color: "green-4",
+          textColor: "white",
+          icon: "cloud_done",
+          message: "New Product added"
+        });
+        this.name = null;
+      } else {
+        this.$q.notify({
+          color: "red-5",
+          textColor: "white",
+          icon: "warning",
+          message: "Please add the complete name of product"
+        });
+      }
+    },
     filterFn(val, update) {
       if (val === "") {
         update(() => {
