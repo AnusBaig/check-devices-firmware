@@ -114,7 +114,7 @@
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Cancel" @click="$router.push({ name: 'Home' })" />
+          <q-btn flat label="Cancel" @click="prompt=false" />
           <q-btn flat label="Add product" @click="addProduct" />
         </q-card-actions>
       </q-card>
