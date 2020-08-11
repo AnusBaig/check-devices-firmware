@@ -23,9 +23,10 @@
           fill-input
           @filter="filterFn"
           @input-value="setModel"
+          @input="productSelected"
           bg-color="white"
           input-debounce="0"
-          :options="productSelection"
+          :options="getProducts"
           class="cursor-pointer q-px-lg q-py-sm"
           style="width: 20vw;min-width:240px"
         >
@@ -59,8 +60,9 @@
       content-class="bg-grey-3"
     >
       <q-list>
+        <template  v-for="option in options">
         <q-item
-          v-for="option in options"
+        v-if="!option.requiresProduct"
           :key="option.title"
           v-ripple
           clickable
@@ -73,6 +75,7 @@
             <q-item-label>{{ option.title }}</q-item-label>
           </q-item-section>
         </q-item>
+        </template>
       </q-list>
     </q-drawer>
 
@@ -123,10 +126,8 @@
 </template>
 
 <script>
+import {mapActions,mapGetters} from 'vuex'
 export default {
-  name: "MainLayout",
-
-  components: {},
 
   data() {
     return {
@@ -139,6 +140,7 @@ export default {
           caption: "Dashboard - provides all devices info",
           icon: "dashboard",
           to: "/",
+          requiresProduct:true,
           link: () => this.$router.push({ name: "Home" })
         },
         {
@@ -146,6 +148,7 @@ export default {
           caption: "List of devices",
           icon: "devices",
           to: "/devices",
+          requiresProduct:true,
           link: () => this.$router.push({ name: "Devices" })
         },
         {
@@ -153,6 +156,7 @@ export default {
           caption: "Check firmware of device",
           icon: "insights",
           to: "/firmwaresOverview",
+          requiresProduct:true,
           link: () => this.$router.push({ name: "FirmwaresOverview" })
         },
         {
@@ -161,32 +165,38 @@ export default {
             "Submit feedback that you experienced for checking of your device firmware",
           icon: "feedback",
           to: "/feedback",
+          requiresProduct:false,
           link: () => this.$router.push({ name: "Feedback" })
         },
         {
           title: "New Product",
           caption: "Add new product to your list",
           icon: "create",
+          requiresProduct:false,
           link: () => (this.prompt = true)
         }
       ],
 
       selectedProduct: null,
-      products: [
-        "Product 1",
-        "Product 2",
-        "Product 3",
-        "Product 4",
-        "Smart Product 1",
-        "Smart Product 2"
-      ],
+      products: ['product1'],
       productSelection: this.products,
 
       prompt: false,
       name: null
     };
   },
+  computed:{
+    ...mapGetters({
+      getProducts:"common/GET_products"
+    }),
+  },
   methods: {
+    ...mapActions({
+      initializeData:'common/initializeData'
+    }),
+    productSelected(){
+      console.log("Hello world!");
+    },
     addProduct() {
       if (this.name && this.name.length >= 3) {
         this.$router.push({ name: "FirmwaresOverview" });
@@ -209,7 +219,7 @@ export default {
     filterFn(val, update) {
       if (val === "") {
         update(() => {
-          this.productSelection = this.products;
+          this.productSelection = this.getProducts;
 
           // with Quasar v1.7.4+
           // here you have access to "ref" which
@@ -220,7 +230,7 @@ export default {
 
       update(() => {
         const needle = val.toLowerCase();
-        this.productSelection = this.products.filter(
+        this.productSelection = this.getProducts.filter(
           v => v.toLowerCase().indexOf(needle) > -1
         );
       });
@@ -228,6 +238,9 @@ export default {
     setModel(val) {
       this.selectedProduct = val;
     }
+  },
+  mounted(){
+    this.initializeData();
   }
 };
 </script>
