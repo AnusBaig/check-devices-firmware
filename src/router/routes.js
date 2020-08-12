@@ -1,3 +1,6 @@
+import store from '../store';
+import {userPortfolio} from '../dummy';
+
 const routes = [{
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
@@ -14,7 +17,6 @@ const routes = [{
       {
         name: 'FirmwaresOverview',
         path: 'firmwaresOverview',
-
         component: () => import('pages/FirmwaresOverview.vue')
       },
       {
@@ -28,7 +30,17 @@ const routes = [{
         path: 'feedback',
         component: () => import('pages/Feedback.vue')
       }
-    ]
+    ],
+    beforeEnter(to,from,next){
+      // Make Api Call and populate store:
+      // Apicall.then(data=>{
+      //   store().dispatch("common/initializeData",data)
+      // })
+
+      // Dummy data
+      store().dispatch("common/initializeData",userPortfolio);
+      next();
+    }
   },
 
   // Always leave this as last one,
@@ -38,5 +50,6 @@ const routes = [{
     component: () => import('pages/Error404.vue')
   }
 ]
+
 
 export default routes

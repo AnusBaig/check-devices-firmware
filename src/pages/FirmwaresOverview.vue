@@ -1,5 +1,6 @@
 <template>
   <q-page padding>
+    <div v-if="getSelectedProduct">
     <div @click.stop="onCardClick">
       <q-card flat square>
         <q-card-section class="row items-center">
@@ -155,10 +156,15 @@
         </q-card>
       </q-dialog>
     </div>
+    </div>
+    <div v-else>
+      Selected Product's Details would be displayed here
+    </div>
   </q-page>
 </template>
 
 <script>
+import { mapGetters,mapActions } from "vuex"
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default {
@@ -237,7 +243,15 @@ export default {
       ]
     };
   },
+  computed:{
+    ...mapGetters({
+      getSelectedProduct:"common/GET_selectedProduct"
+    })
+  },
   methods: {
+    ...mapActions({
+
+    }),
     counterLabelFn({ totalSize, filesNumber, maxFiles }) {
       return `${totalSize}`;
     },

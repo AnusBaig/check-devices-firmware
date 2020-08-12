@@ -21,9 +21,9 @@
           transition-show="jump-up"
           transition-hide="jump-up"
           fill-input
-          @filter="filterFn"
-          @input-value="setModel"
-          @input="productSelected"
+          @input="selectProduct"
+          emit-value
+          map-options
           bg-color="white"
           input-debounce="0"
           :options="getProducts"
@@ -62,7 +62,6 @@
       <q-list>
         <template  v-for="option in options">
         <q-item
-        v-if="!option.requiresProduct"
           :key="option.title"
           v-ripple
           clickable
@@ -131,6 +130,7 @@ export default {
 
   data() {
     return {
+      //drawer
       leftDrawerOpen: false,
       miniState: true,
       tab: null,
@@ -177,29 +177,31 @@ export default {
         }
       ],
 
-      selectedProduct: null,
-      products: ['product1'],
-      productSelection: this.products,
 
+      selectedProduct: null,
       prompt: false,
       name: null
     };
   },
   computed:{
     ...mapGetters({
-      getProducts:"common/GET_products"
+      getProducts:"common/getAllProducts"
     }),
   },
   methods: {
     ...mapActions({
-      initializeData:'common/initializeData'
+      initializeData:'common/initializeData',
+      selectProduct:'common/selectProduct',
+      newProduct:'product/newProduct'
     }),
     productSelected(){
-      console.log("Hello world!");
+    
     },
     addProduct() {
-      if (this.name && this.name.length >= 3) {
+      if (this.name.length != 0) {
+        this.newProduct(this.name);
         this.$router.push({ name: "FirmwaresOverview" });
+
         this.$q.notify({
           color: "green-4",
           textColor: "white",
@@ -212,35 +214,12 @@ export default {
           color: "red-5",
           textColor: "white",
           icon: "warning",
-          message: "Please add the complete name of product"
+          message: "Product name can't be empty"
         });
       }
-    },
-    filterFn(val, update) {
-      if (val === "") {
-        update(() => {
-          this.productSelection = this.getProducts;
-
-          // with Quasar v1.7.4+
-          // here you have access to "ref" which
-          // is the Vue reference of the QSelect
-        });
-        return;
-      }
-
-      update(() => {
-        const needle = val.toLowerCase();
-        this.productSelection = this.getProducts.filter(
-          v => v.toLowerCase().indexOf(needle) > -1
-        );
-      });
-    },
-    setModel(val) {
-      this.selectedProduct = val;
     }
   },
   mounted(){
-    this.initializeData();
   }
 };
 </script>

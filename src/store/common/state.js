@@ -1,9 +1,9 @@
 export default function () {
   return {
     user:{
-      name:null,
-      productIds:[]
+      name:"",
     },
-    selectedProduct:null
+    selectedProduct:null,
+    products:[]
   }
 }

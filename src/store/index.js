@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import common from './common/index'
+import products from './products/index'
+import firmwares from './firmwares/index'
 
 // import example from './module-example'
 
@@ -18,7 +20,9 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      common
+      common,
+      products,
+      firmwares
     },
 
     // enable strict mode (adds overhead!)

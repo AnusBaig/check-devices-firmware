@@ -1,6 +1,14 @@
 const userPortfolio={
-  productIds:[],
-  name:"Abdullah",
+  user:{
+    name:"Abdullah",
+  },
+  products:[
+    {
+      name:"Amazon Dash",
+      id:1
+    }
+
+  ],
   selectedProduct:null
 }
 
@@ -9,9 +17,32 @@ const products=[
   {
     id:1,
     OTAUrl:"https://something/32de",
-    devicesIds:[],
-    currentFirmwareId:null,
-    firmwareIds:[]
+    name:"Amazon Dash",
+    devices:[
+      {
+        id:'4B-DC-F8-05-6E-5F',
+        version:"1.2.3",
+        lastCheckInTime:'2020/08/11',
+        lastUpdate:'2020/08/10',
+        firmwareId:1
+      },
+      {
+        id:'8B-DC-D8-15-6E-5F',
+        version:"2.4.3",
+        lastCheckInTime:'2020/08/11',
+        lastUpdate:'2020/08/10',
+        firmwareId:2
+      },
+      {
+        id:'2B-KC-D8-15-65-5F',
+        version:"2.4.3",
+        lastCheckInTime:'2020/08/11',
+        lastUpdate:'2020/08/10',
+        firmwareId:2
+      },
+    ],
+    currentFirmwareId:1,
+    totalFirmwareBinaries:2
   }
   // {
   //   id:2,
@@ -29,24 +60,24 @@ const products=[
   // }
 ];
 
-const devices=[
-  {
-    id:'4B-DC-F8-05-6E-5F',
-    lastCheckInTime:'2020/08/11',
-    lastUpdate:'2020/08//10',
-    firmwareId:1
-  },
-  {
-    id:'8B-DC-D8-15-6E-5F',
-    lastCheckInTime:'2020/08/11',
-    lastUpdate:'2020/08//10',
-    firmwareId:2
-  }
-];
+// const devices=[
+//   {
+//     id:'4B-DC-F8-05-6E-5F',
+//     lastCheckInTime:'2020/08/11',
+//     lastUpdate:'2020/08//10',
+//     firmwareId:1
+//   },
+//   {
+//     id:'8B-DC-D8-15-6E-5F',
+//     lastCheckInTime:'2020/08/11',
+//     lastUpdate:'2020/08//10',
+//     firmwareId:2
+//   }
+// ];
 
 const firmwares=[
   {
-    currentFirmwareId:1,
+    firmwareId:1,
     version:'1.2.3',
     binary:null,
     releaseNotes:'lorem ipsum dotem',
@@ -56,7 +87,7 @@ const firmwares=[
     signed:false 
   },
   {
-    currentFirmwareId:2,
+    firmwareId:2,
     version:'2.4.3',
     binary:null,
     releaseNotes:'lorem ipsum dotem',
@@ -70,7 +101,7 @@ const firmwares=[
 export {
   products,
   userPortfolio,
-  devices,
+  // devices,
   firmwares
 }
 

@@ -1,7 +1,13 @@
 
-export function GET_selectedProduct (state) {
+export function getSelectedProduct (state) {
   return state.selectedProduct;
 }
-export function GET_products(state){
-  return state.user.productIds;
+export function getAllProducts(state){
+
+  return state.products.map(val=>{
+    return {
+      label:val.name,
+      value:val.id
+    }
+  });
 }
