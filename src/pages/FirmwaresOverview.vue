@@ -210,6 +210,13 @@ export default {
       ]
     };
   },
+  created(){
+    if(this.getSelectedProduct)
+    {
+    var firmwares=JSON.parse(localStorage.getItem("productsFirmwares")).find(v=>v.productId==this.getSelectedProduct).firmwares;
+    this.$store.commit('firmwares/loadFirmwares',firmwares,{root:true});
+    }
+  },
   computed:{
     ...mapGetters({
       getSelectedProduct:"common/getSelectedProduct",

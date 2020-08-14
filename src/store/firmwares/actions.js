@@ -46,7 +46,6 @@ export function newFirmware ({commit,rootGetters},payload) {
 
    commit("firmwares/addNewFirmware",firmware,{root:true});
 
-
 }
 export function saveReleaseNotes ({commit},payload){
   commit("saveReleaseNotes",payload);
