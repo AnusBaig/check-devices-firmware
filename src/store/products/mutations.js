@@ -10,3 +10,9 @@ export function loadDevices(state,payload){
 export function updateBinariesCount(state,payload){
   state.totalBinaries=payload;
 }
+export function updateCurrentFirmwareInfo(state,payload){
+  state.currentFirmware=payload;
+}
+export function incrementFirmwareCount(state,payload){
+  state.totalBinaries++;
+}

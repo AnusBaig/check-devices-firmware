@@ -41,8 +41,8 @@ const products=[
         firmwareId:2
       },
     ],
-    currentFirmwareId:1,
-    totalFirmwareBinaries:2
+    currentFirmware:{id:2,version:'2.4.3'},
+    totalFirmwareBinaries:3
   }
   // {
   //   id:2,
@@ -75,8 +75,10 @@ const products=[
 //   }
 // ];
 
-const firmwares=[
-  {
+const productsFirmwares=[
+{
+  productId:1,
+    firmwares:[{
     firmwareId:1,
     version:'1.2.3',
     binary:null,
@@ -91,18 +93,29 @@ const firmwares=[
     version:'2.4.3',
     binary:null,
     releaseNotes:'lorem ipsum dotem',
-    deviceIds:['8B-DC-D8-15-6E-5F'],
+    deviceIds:['8B-DC-D8-15-6E-5F','2B-KC-D8-15-65-5F'],
+    size:'24Kb',
+    createdDate:'2016/03/25',
+    signed:false 
+  },
+  {
+    firmwareId:3,
+    version:'0.4.3',
+    binary:null,
+    releaseNotes:'lorem ipsum dotem',
+    deviceIds:[],
     size:'24Kb',
     createdDate:'2016/03/25',
     signed:false 
   }
 ]
+}];
 
 export {
   products,
   userPortfolio,
   // devices,
-  firmwares
+  productsFirmwares
 }
 
 // const devices=[

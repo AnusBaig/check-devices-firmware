@@ -10,23 +10,24 @@
       <q-card-section>
         <div class="row items-center q-mb-md q-gutter-lg">
             <span class="text-body1"> Version:</span>
-            <span class="text-body1"> 1.2.5</span>
+            <span class="text-body1"> {{firmwareInfo(id).version}}</span>
         </div>
         <div class="row items-center q-mb-md q-gutter-lg">
             <span class="text-body1"> Number of devices:</span>
-            <span class="text-body1"> 24</span>
+            <span class="text-body1"> {{firmwareInfo(id).deviceIds.length}}</span>
         </div>
         <div class="row items-center q-mb-md q-gutter-lg">
             <span class="text-body1"> Signed:</span>
-            <q-icon name="check_circle" color="green" size="20px" />
+            <q-icon v-if="firmwareInfo(id).signed" name="check_circle" color="green" size="20px" />
+            <q-icon v-else name="cancel" color="red" size="20px" />
         </div>
         <div class="row items-center q-mb-md q-gutter-lg">
             <span class="text-body1"> Size:</span>
-            <span class="text-body1"> 32Kb</span>
+            <span class="text-body1"> {{firmwareInfo(id).size}}</span>
         </div>
         <div class="row items-center q-mb-md q-gutter-lg">
             <span class="text-body1"> Created Date:</span>
-            <span class="text-body1"> {{new Date()}}</span>
+            <span class="text-body1"> {{firmwareInfo(id).createdDate}}</span>
         </div>
       </q-card-section>
       <q-card-section>
@@ -37,10 +38,10 @@
               Edit Release Notes
             </q-tooltip>
           </q-btn>
-          <q-btn v-if="editMode==true" dense unelevated  color="green" icon="save" label="Save" @click="editMode=false" />
+          <q-btn v-if="editMode==true" dense unelevated  color="green" icon="save" label="Save" @click="saveData" />
         </div>
         <div class="editorHolder">
-        <ckeditor v-if="editMode" :editor="editor"   v-model="editedReleaseData" :config="editorConfig"></ckeditor>
+        <ckeditor v-if="editMode" :editor="editor" v-model="editedReleaseData" :config="editorConfig"></ckeditor>
         <div class="releaseNotesDisplay q-pa-md" v-html="editedReleaseData" v-else>
         </div>
         </div>
@@ -51,6 +52,7 @@
 
 <script>
 import Ckeditor from "@ckeditor/ckeditor5-build-classic"
+import { mapGetters,mapActions } from "vuex"
 
 export default {
   data(){
@@ -58,14 +60,35 @@ export default {
       editMode:false,
 
       editor: Ckeditor,
-      editedReleaseData: '<p>Release Notes..</p>',
+      editedReleaseData: '',
       editorConfig: {
         // The configuration of the editor.
         placeholder:"Release Notes"
       }
     }
   },
-  props:['id']
+  props:['id'],
+  mounted(to,from,next){
+    if(this.getSelectedProduct){
+      this.editedReleaseData=this.firmwareInfo(this.id).releaseNotes;
+    }
+  },
+  computed:{
+    ...mapGetters({
+      firmwareInfo:"firmwares/getFirmwareInfo",
+      getSelectedProduct:"common/getSelectedProduct"
+    })
+  },
+  methods:{
+    ...mapActions({
+      saveReleaseNotes:"firmwares/saveReleaseNotes"
+    }),
+    saveData(){
+      this.saveReleaseNotes({releaseNotes:this.editedReleaseData,firmwareId:this.id});
+      this.editMode=false;
+
+    }
+  }
 }
 </script>
 <style >

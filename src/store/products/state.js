@@ -4,7 +4,7 @@ export default function () {
       name:null,
       OTAUrl:null,
       devices:[],
-      currentFirmwareId:null,
+      currentFirmware:null,
       totalBinaries:null
   }
 }

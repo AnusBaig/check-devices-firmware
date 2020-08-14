@@ -15,7 +15,7 @@ export function getProductStats (state){
    },
    {
      label:'Current Firmware',
-     value:state.currentFirmwareId
+     value:state.currentFirmware.version
    },
    {
      label:'Total Binaries',
@@ -44,3 +44,6 @@ export function getAllDevices (state){
   return state.devices;
 }
 
+export function getCurrentFirmware (state){
+  return state.currentFirmware;
+}

@@ -15,8 +15,8 @@
         <q-card-section>
           <div class="row q-gutter-sm">
             <q-card
-              v-for="firmware in activeFirmwares"
-              :data-id="firmware.version"
+              v-for="firmware in getActiveFirmwares"
+              :data-id="firmware.firmwareId"
               :key="firmware.version"
               class="firmwareCard col-3 "
             >
@@ -24,7 +24,7 @@
                 <div class="text-h6 row items-center">
                   <span> v{{ firmware.version }} </span>
                   <q-icon
-                    v-if="firmware.version == defaultVersion"
+                    v-if="firmware.firmwareId == getCurrentFirmware.id"
                     name="check_circle"
                     class="text-green q-ml-auto"
                   />
@@ -35,7 +35,7 @@
               </q-card-section>
               <q-card-section>
                 <div class="text-subtitle1">Release Notes</div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                {{firmware.releaseNotes}}
               </q-card-section>
             </q-card>
           </div>
@@ -56,10 +56,12 @@
         <q-card-section>
           <q-table
             ref="table"
-            :data="data"
+            :data="getInactiveFirmwares"
             row-key="name"
             class="q-pa-md"
             :columns="columns"
+            :visible-columns="visibleColumns"
+            no-data-label="No inactive devices found!"
             @row-click="onRowClick"
           />
         </q-card-section>
@@ -110,7 +112,7 @@
               <q-checkbox
                 class=""
                 left-label
-                v-model="makeDefaultFimware"
+                v-model="makeDefaultFirmware"
                 label="Mark Default"
               />
             </div>
@@ -150,7 +152,7 @@
               align="center"
               color="purple"
               label="Add"
-              @click="newFirmware"
+              @click="newFirmware({editorData,BinaryFile,newVersion,makeDefaultFirmware})"
             />
           </q-card-section>
         </q-card>
@@ -167,42 +169,24 @@
 import { mapGetters,mapActions } from "vuex"
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
+
 export default {
   data() {
     return {
-      makeDefaultFimware: false,
+ 
 
       editor: ClassicEditor,
       editorData: "<p>Release Notes..</p>",
       editorConfig: {
         // The configuration of the editor.
       },
+      //new firmware
       open: false,
       newVersion: "",
-      defaultVersion: "1.2.3",
       BinaryFile: null,
-      activeFirmwares: [
-        {
-          version: "1.2.3",
-          numberOfDevices: 23,
-          releaseNotes: "lorem ipsum dotem ..."
-        },
-        {
-          version: "2.2.3",
-          numberOfDevices: 31,
-          releaseNotes: "lorem ipsum dotem ..."
-        },
-        {
-          version: "4.2.3",
-          numberOfDevices: 45,
-          releaseNotes: "lorem ipsum dotem ..."
-        },
-        {
-          version: "5.2.3",
-          numberOfDevices: 45,
-          releaseNotes: "lorem ipsum dotem ..."
-        }
-      ],
+      makeDefaultFirmware: false,
+
+      visibleColumns:["version","releaseNotes"],
       columns: [
         {
           name: "version",
@@ -212,45 +196,31 @@ export default {
           field: row => row.version
         },
         {
-          name: "numberOfDevices",
-          label: "Devices Count",
-          align: "center",
-          field: row => row.numberOfDevices
-        },
-        {
           name: "releaseNotes",
           label: "Release Notes",
           align: "center",
           field: row => row.releaseNotes
-        }
-      ],
-      data: [
-        {
-          version: "0.0.1",
-          numberOfDevices: 4,
-          releaseNotes: "lorem ipsum dotem ..."
         },
         {
-          version: "0.0.2",
-          numberOfDevices: 5,
-          releaseNotes: "lorem ipsum dotem ..."
-        },
-        {
-          version: "0.0.3",
-          numberOfDevices: 0,
-          releaseNotes: "lorem ipsum dotem ..."
+          name: "firmwareId",
+          label: "Release Notes",
+          align: "center",
+          field: row => row.firmwareId
         }
       ]
     };
   },
   computed:{
     ...mapGetters({
-      getSelectedProduct:"common/GET_selectedProduct"
+      getSelectedProduct:"common/getSelectedProduct",
+      getActiveFirmwares:"firmwares/getActiveFirmwares",
+      getInactiveFirmwares:"firmwares/getInactiveFirmwares",
+      getCurrentFirmware:"products/getCurrentFirmware"
     })
   },
   methods: {
     ...mapActions({
-
+      newFirmware:"firmwares/newFirmware"
     }),
     counterLabelFn({ totalSize, filesNumber, maxFiles }) {
       return `${totalSize}`;
@@ -259,10 +229,11 @@ export default {
       console.log("Clicked On", row.version);
     },
     onCardClick(event) {
-      console.log(event.target.closest(".firmwareCard").dataset.id);
-    },
-    newFirmware() {
-      console.log("firware");
+      if(event.target.closest(".firmwareCard"))
+      {
+        const firmwareId=event.target.closest(".firmwareCard").dataset.id;
+        this.$router.push({ name: 'Firmwares', params: { id: firmwareId } });
+      }
     }
   }
 };

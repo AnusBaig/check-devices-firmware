@@ -29,6 +29,7 @@
           :options="getProducts"
           class="cursor-pointer q-px-lg q-py-sm"
           style="width: 20vw;min-width:240px"
+          ref="productsDropdown"
         >
           <template v-slot:prepend>
             <q-icon name="trip_origin" class="cursor_pointer" color="blue-5" />
@@ -192,14 +193,12 @@ export default {
     ...mapActions({
       initializeData:'common/initializeData',
       selectProduct:'common/selectProduct',
-      newProduct:'product/newProduct'
+      newProduct:'products/newProduct'
     }),
-    productSelected(){
-    
-    },
     addProduct() {
       if (this.name.length != 0) {
         this.newProduct(this.name);
+        this.selectedProduct=this.name;
         this.$router.push({ name: "FirmwaresOverview" });
 
         this.$q.notify({
@@ -218,8 +217,6 @@ export default {
         });
       }
     }
-  },
-  mounted(){
   }
 };
 </script>

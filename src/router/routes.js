@@ -38,7 +38,7 @@ const routes = [{
       // })
 
       // Dummy data
-      store().dispatch("common/initializeData",userPortfolio);
+     store().dispatch("common/initializeData",userPortfolio);
       next();
     }
   },
