@@ -27,8 +27,7 @@
           bg-color="white"
           input-debounce="0"
           :options="getProducts"
-          class="cursor-pointer q-px-lg q-py-sm"
-          style="width: 20vw;min-width:240px"
+          class="search cursor-pointer q-px-lg q-py-sm q-mx-auto"
           ref="productsDropdown"
         >
           <template v-slot:prepend>
@@ -41,9 +40,9 @@
           </template>
         </q-select>
 
-        <q-toolbar-title class="text-center"
+        <!-- <q-toolbar-title class="text-center"
           >Check Device Firmware</q-toolbar-title
-        >
+        >-->
       </q-toolbar>
     </q-header>
 
@@ -58,23 +57,20 @@
       :breakpoint="767"
       bordered
       active
-      content-class="bg-grey-3"
+      :content-style="{ backgroundColor: '#e3e2df' }"
     >
       <q-list>
-        <template  v-for="option in options">
-        <q-item
-          :key="option.title"
-          v-ripple
-          clickable
-          @click="option.link"
-        >
-          <q-item-section v-if="option.icon" avatar>
-            <q-icon :name="option.icon" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>{{ option.title }}</q-item-label>
-          </q-item-section>
-        </q-item>
+        <template v-for="option in options">
+          <q-item :key="option.title" v-ripple clickable @click="option.link">
+            <q-item-section v-if="option.icon" avatar>
+              <q-icon :name="option.icon" color="blue-grey-7" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-secondary font- text-weight-medium">{{
+                option.title
+              }}</q-item-label>
+            </q-item-section>
+          </q-item>
         </template>
       </q-list>
     </q-drawer>
@@ -117,7 +113,7 @@
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Cancel" @click="prompt=false" />
+          <q-btn flat label="Cancel" @click="prompt = false" />
           <q-btn flat label="Add product" @click="addProduct" />
         </q-card-actions>
       </q-card>
@@ -126,9 +122,8 @@
 </template>
 
 <script>
-import {mapActions,mapGetters} from 'vuex'
+import { mapActions, mapGetters } from "vuex";
 export default {
-
   data() {
     return {
       //drawer
@@ -141,23 +136,25 @@ export default {
           caption: "Dashboard - provides all devices info",
           icon: "dashboard",
           to: "/",
-          requiresProduct:true,
-          link: () => this.$router.push({ name: "Home" })
+          requiresProduct: true,
+          link: () => this.$router.push({ name: "Home" }),
+          color: "#606060"
         },
         {
           title: "Devices",
           caption: "List of devices",
           icon: "devices",
           to: "/devices",
-          requiresProduct:true,
-          link: () => this.$router.push({ name: "Devices" })
+          requiresProduct: true,
+          link: () => this.$router.push({ name: "Devices" }),
+          color: "#606060"
         },
         {
           title: "Firmwares",
           caption: "Check firmware of device",
           icon: "insights",
           to: "/firmwaresOverview",
-          requiresProduct:true,
+          requiresProduct: true,
           link: () => this.$router.push({ name: "FirmwaresOverview" })
         },
         {
@@ -166,39 +163,38 @@ export default {
             "Submit feedback that you experienced for checking of your device firmware",
           icon: "feedback",
           to: "/feedback",
-          requiresProduct:false,
+          requiresProduct: false,
           link: () => this.$router.push({ name: "Feedback" })
         },
         {
           title: "New Product",
           caption: "Add new product to your list",
           icon: "create",
-          requiresProduct:false,
+          requiresProduct: false,
           link: () => (this.prompt = true)
         }
       ],
-
 
       selectedProduct: null,
       prompt: false,
       name: null
     };
   },
-  computed:{
+  computed: {
     ...mapGetters({
-      getProducts:"common/getAllProducts"
-    }),
+      getProducts: "common/getAllProducts"
+    })
   },
   methods: {
     ...mapActions({
-      initializeData:'common/initializeData',
-      selectProduct:'common/selectProduct',
-      newProduct:'products/newProduct'
+      initializeData: "common/initializeData",
+      selectProduct: "common/selectProduct",
+      newProduct: "products/newProduct"
     }),
     addProduct() {
       if (this.name.length != 0) {
         this.newProduct(this.name);
-        this.selectedProduct=this.name;
+        this.selectedProduct = this.name;
         this.$router.push({ name: "FirmwaresOverview" });
 
         this.$q.notify({
@@ -222,6 +218,11 @@ export default {
 </script>
 
 <style scoped>
+.search {
+  width: 60vw;
+  /* min-width: 300px; */
+}
+
 @media screen and (min-width: 768px) {
   .q-footer {
     display: none;
@@ -230,6 +231,9 @@ export default {
 @media screen and (max-width: 767px) {
   .q-btn {
     display: none;
+  }
+  .search {
+    width: 80vw;
   }
 }
 </style>

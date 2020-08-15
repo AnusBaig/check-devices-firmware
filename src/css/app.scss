@@ -1,1 +1,69 @@
 // app global css in SCSS form
+@font-face {
+    font-family: Helvetica;
+    src: url(../assets/Helvetica85Heavy_22449.ttf);
+}
+
+.font-helvetica {
+    font-family: Helvetica, sans-serif !important;
+}
+
+.shadow-card {
+    box-shadow: 24px 14px 41px 0px rgba(195, 186, 197, 0.644);
+}
+
+.shadow-card-fix {
+    box-shadow: -24px -14px 41px 0px rgba(195, 186, 197, 0.644);
+}
+
+.no-product-select {
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+    color: $secondary;
+    border-radius: 0rem;
+    margin: 15vh 8vw;
+    box-shadow: 1rem 1rem 10rem inset;
+
+    position: relative;
+    text-transform: uppercase;
+
+    div {
+        box-shadow: 24px 14px 41px 0px rgba(195, 186, 197, 0.644);
+
+        div {
+            padding: 8vw;
+
+            box-shadow: -24px -14px 41px 0px rgba(195, 186, 197, 0.644);
+
+            :before,
+            :after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 100%;
+                border-bottom: 0.6rem solid #546e7a;
+                border-left: 0.6rem solid transparent;
+                border-right: 0.6rem solid transparent;
+            }
+
+            :after {
+                bottom: auto;
+                top: 100%;
+                border-bottom: none;
+                border-top: 0.6rem solid #546e7a;
+            }
+
+            span {
+                display: inline-block;
+                filter: brightness(130%) contrast(150%);
+                font-size: 3.5rem;
+                font-weight: bold;
+                letter-spacing: 0.3rem;
+
+            }
+        }
+
+    }
+
+}

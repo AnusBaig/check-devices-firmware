@@ -1,51 +1,55 @@
 <template>
   <q-page padding>
     <div v-if="getSelectedProduct" class="q-pa-md">
-      <div class="content-header q-mb-md">
-        <q-card class="my-card bg-gray">
+      <div class="content-header shadow-card q-mb-md">
+        <q-card class="my-card shadow-card-fix bg-gray">
           <q-card-section>
-            <div class="text-h6 row items-center">
-              <q-icon left name="developer_mode"></q-icon>
-              <span>{{getProductInfo.productName}}</span>
+            <div class="text-h6 text-blue-grey-14 row items-center">
+              <q-icon left name="developer_mode" color="blue-grey-14"></q-icon>
+              <span>{{ getProductInfo.productName }}</span>
             </div>
           </q-card-section>
           <q-card-section>
             <div class="q-ml-xs">
               <span class="text-subtitle1 text-teal">OTA Url</span>
-              <span class="q-ml-xl text-body1 text-blue"
-                ><q-icon size="24px" name="link"></q-icon
-                ><a class="q-ml-sm">{{ getProductInfo.OTAUrl }}</a></span
-              >
+              <span class="q-ml-xl text-body1 text-blue">
+                <q-icon size="24px" name="link"></q-icon>
+                <a class="q-ml-sm">{{ getProductInfo.OTAUrl }}</a>
+              </span>
             </div>
           </q-card-section>
         </q-card>
       </div>
-      <div class="device-stats q-mb-md">
-        <q-card class="my-card">
+      <div class="device-stats shadow-card q-mb-md">
+        <q-card class="my-card shadow-card-fix">
           <q-card-section>
-            <div class="text-h6  row items-center">
-              <q-icon name="bar_chart"></q-icon>
-              <span class="q-ml-sm">Statistics</span>
+            <div class="text-h6 row items-center">
+              <q-icon name="bar_chart" color="blue-grey-14"></q-icon>
+              <span class="q-ml-sm text-blue-grey-14">Statistics</span>
             </div>
           </q-card-section>
           <q-card-section>
-            <q-item v-for="stat in getProductStats" :key="stat.label" class="row ">
-              <q-item-section class="text-body1">{{
-                stat.label
-              }}</q-item-section>
-              <q-item-section class="text-body1">{{
-                stat.value
-              }}</q-item-section>
+            <q-item
+              v-for="stat in getProductStats"
+              :key="stat.label"
+              class="row"
+            >
+              <q-item-section class="text-body1">
+                {{ stat.label }}
+              </q-item-section>
+              <q-item-section class="text-body1">
+                {{ stat.value }}
+              </q-item-section>
               <!-- <q-separator v-if="index != stats.length - 1"></q-separator> -->
             </q-item>
           </q-card-section>
         </q-card>
       </div>
-      <div class="firmware-stats q-mb-md">
-        <q-card>
+      <div class="firmware-stats shadow-card q-mb-md">
+        <q-card class="shadow-card-fix">
           <q-card-section>
-            <div class="text-h6  row items-center">
-              <q-icon name="insights"></q-icon>
+            <div class="text-h6 text-blue-grey-14 row items-center">
+              <q-icon name="insights" color="blue-grey-14"></q-icon>
               <span class="q-ml-sm">Active Firmwares</span>
             </div>
           </q-card-section>
@@ -63,21 +67,26 @@
           </q-card-section>
         </q-card>
       </div>
-      <div class="chart-div q-mb-md">
-        <q-card class="my-card">
+      <div class="chart-div shadow-card q-mb-md">
+        <q-card class="my-card shadow-card-fix">
           <chart :chartData="chartData" :options="chartOptions"></chart>
         </q-card>
       </div>
- 
     </div>
-    <div v-else>
-      <span>Selected Product's info would be displayed here</span>
+    <div v-else class="no-product-select ">
+      <div>
+        <div>
+          <span class="animate__animated animate__tada"
+            >Selected Product's info would be displayed here</span
+          >
+        </div>
+      </div>
     </div>
   </q-page>
 </template>
 
 <script>
-import { mapActions,mapGetters } from 'vuex'
+import { mapActions, mapGetters } from "vuex";
 import chart from "../components/Chart";
 export default {
   data() {
@@ -149,10 +158,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getSelectedProduct:"common/getSelectedProduct",
-      getProductInfo:"products/getProductInfo",
-      getProductStats:"products/getProductStats",
-      getFirmwaresWithDevices:"products/getFirmwaresWithDevices"
+      getSelectedProduct: "common/getSelectedProduct",
+      getProductInfo: "products/getProductInfo",
+      getProductStats: "products/getProductStats",
+      getFirmwaresWithDevices: "products/getFirmwaresWithDevices"
     }),
     stats() {
       return [
